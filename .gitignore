@@ -1,0 +1,11 @@
+.project
+.idea
+.classpath
+build.xml
+build.properties
+bin
+/bin
+/build
+/dist
+sysProps.xml
+*.iml
