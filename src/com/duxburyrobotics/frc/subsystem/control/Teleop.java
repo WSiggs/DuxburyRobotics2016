@@ -44,6 +44,9 @@ public class Teleop
         else if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_REVERSE_BUTTON))
             intakeMotorValue = -1;
         duxDrive.runIntakeMotor(intakeMotorValue, isRampDown);
+        
+        if(operatorControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
+        	duxDrive.shootBallOnPush();
+        
     }
-
 }
