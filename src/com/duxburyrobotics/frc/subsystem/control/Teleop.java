@@ -45,7 +45,7 @@ public class Teleop
             intakeMotorValue = -1;
         duxDrive.runIntakeMotor(intakeMotorValue, isRampDown);
         
-        if(operatorControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
+        if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();
         
     }
