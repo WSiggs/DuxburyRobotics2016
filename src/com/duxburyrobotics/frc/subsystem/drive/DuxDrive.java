@@ -41,16 +41,12 @@ public class DuxDrive extends RobotDrive
     {
         double calculatedMoveValue = 0;
 
-        if (!limitSwitch.get())
+        if (moveValue < 0)
         {
-            if (moveValue < 0)
-            {
-                calculatedMoveValue = -(Math.pow(Math.abs(moveValue), Constants.ARM_SPEED_POWER));
-            }
-            else
-            {
-                calculatedMoveValue = Math.pow(moveValue, Constants.ARM_SPEED_POWER);
-            }
+            calculatedMoveValue = -(Math.pow(Math.abs(moveValue), Constants.ARM_SPEED_POWER));
+        } else
+        {
+            calculatedMoveValue = Math.pow(moveValue, Constants.ARM_SPEED_POWER);
         }
 
         armLeft.set(calculatedMoveValue);
@@ -59,36 +55,40 @@ public class DuxDrive extends RobotDrive
 
     public void runIntakeMotor(int direction, boolean isRampDown)
     {
-        if (direction == -1)
+        if (!limitSwitch.get())
         {
-            intakeMotor.set(isRampDown ? -Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : -Constants.INTAKE_MOTOR_SPEED);
-        }
-        else if (direction == 1)
-        {
-            intakeMotor.set(isRampDown ? Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : Constants.INTAKE_MOTOR_SPEED);
-        }
-        else
-        {
-            intakeMotor.set(0);
+            if (direction == -1)
+            {
+                intakeMotor.set(isRampDown ? -Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : -Constants.INTAKE_MOTOR_SPEED);
+            } else if (direction == 1)
+            {
+                intakeMotor.set(isRampDown ? Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : Constants.INTAKE_MOTOR_SPEED);
+            } else
+            {
+                intakeMotor.set(0);
+            }
         }
     }
 
     public void movePneumatics(int direction)
     {
-        if (direction == 1)
+        if (!limitSwitch.get())
         {
-            intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-            rampSolenoid.set(DoubleSolenoid.Value.kReverse);
-        }
-        else if (direction == -1)
-        {
-            intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-            rampSolenoid.set(DoubleSolenoid.Value.kForward);
-        }
-        else
-        {
-            intakeSolenoid.set(DoubleSolenoid.Value.kOff);
-            rampSolenoid.set(DoubleSolenoid.Value.kOff);
+            if (direction == 1)
+            {
+                intakeSolenoid.set(DoubleSolenoid.Value.kForward);
+                rampSolenoid.set(DoubleSolenoid.Value.kReverse);
+            }
+            else if (direction == -1)
+            {
+                intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+                rampSolenoid.set(DoubleSolenoid.Value.kForward);
+            }
+            else
+            {
+                intakeSolenoid.set(DoubleSolenoid.Value.kOff);
+                rampSolenoid.set(DoubleSolenoid.Value.kOff);
+            }
         }
     }
 
