@@ -29,8 +29,9 @@ public class Robot extends IterativeRobot
     {
         duxDriveHelper = new DuxDriveHelper();
 
-        teleop = new Teleop(duxDriveHelper);
         auto = new Autonomous(duxDriveHelper);
+        teleop = new Teleop(duxDriveHelper, auto);
+
     }
 
     /**

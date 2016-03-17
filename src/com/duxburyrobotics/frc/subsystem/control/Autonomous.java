@@ -63,7 +63,6 @@ public class Autonomous
 
     public void autonomous()
     {
-        lastTime = System.nanoTime();
         if (mode == 0) // Low Bar / Goal
         {
             if (currentInstruction == 0)
@@ -228,7 +227,6 @@ public class Autonomous
 
     public boolean portcullisMethod()
     {
-        lastPortcullisTime = System.nanoTime();
         if (portcullisInstruction == 0)
         {
             duxDrive.moveArm(0.25);
@@ -259,7 +257,6 @@ public class Autonomous
 
     public boolean chevalMethod()
     {
-        lastChevalTime = System.nanoTime();
         if (chevalInstruction == 0)
         {
             duxDrive.arcadeDrive(0.5, 0.0);
@@ -343,11 +340,13 @@ public class Autonomous
     public void chevalReset()
     {
         chevalInstruction = 0;
+        lastChevalTime = System.nanoTime();
     }
 
     public void portcullisReset()
     {
         portcullisInstruction = 0;
+        lastChevalTime = System.nanoTime();
     }
 
 }
