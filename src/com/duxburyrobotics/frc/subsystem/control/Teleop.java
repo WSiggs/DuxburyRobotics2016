@@ -8,15 +8,17 @@ public class Teleop
 {
 
     private DuxDriveHelper duxDrive;
+    private Autonomous auto;
 
     private Joystick driverControl;
     private Joystick operatorControl;
 
     private boolean isRampDown = false;
 
-    public Teleop(DuxDriveHelper duxDrive)
+    public Teleop(DuxDriveHelper duxDrive, Autonomous auto)
     {
         this.duxDrive = duxDrive;
+        this.auto = auto;
 
         this.driverControl = new Joystick(0);
         this.operatorControl = new Joystick(1);
@@ -47,6 +49,17 @@ public class Teleop
         
         if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();
+
+        if (operatorControl.getRawButton(Constants.CHEVAL_BUTTON))
+            auto.chevalMethod();
+        else
+            auto.chevalReset();
+
+        if (operatorControl.getRawButton(Constants.PORTCULLIS_BUTTON))
+            auto.portcullisMethod();
+        else
+            auto.portcullisReset();
+
         
     }
 }

@@ -9,9 +9,9 @@ public class Autonomous
 
     private final byte AUTO_INSTRUCTION = 0x00;
     private final byte CHEVAL_INSTRUCTION = 0x01;
-    private final byte PORTCUTLUS_INSTRUCTION = 0x02;
+    private final byte PORTCULLIS_INSTRUCTION = 0x02;
 
-    private final int mode = 0; // 0 == Low Bar/Goal, 1 == Pass B & D Defense, 2 == Portcutlus, 3 == Cheval
+    private final int mode = 0; // 0 == Low Bar/Goal, 1 == Pass B & D Defense, 2 == Portcullis, 3 == Cheval
 
     private DuxDriveHelper duxDrive;
 
@@ -22,11 +22,11 @@ public class Autonomous
 
     private int currentInstruction;
     private int chevalInstruction;
-    private int portcutlusInstruction;
+    private int portcullisInstruction;
 
     private long lastTime;
     private long lastChevalTime;
-    private long lastPortcutlusTime;
+    private long lastPortcullisTime;
 
     public Autonomous(DuxDriveHelper duxDrive)
     {
@@ -54,15 +54,16 @@ public class Autonomous
 
         this.currentInstruction = 0;
         this.chevalInstruction = 0;
-        this.portcutlusInstruction = 0;
+        this.portcullisInstruction = 0;
 
         this.lastTime = System.nanoTime();
         this.lastChevalTime = lastTime;
-        this.lastPortcutlusTime = lastTime;
+        this.lastPortcullisTime = lastTime;
     }
 
     public void autonomous()
     {
+        lastTime = System.nanoTime();
         if (mode == 0) // Low Bar / Goal
         {
             if (currentInstruction == 0)
@@ -148,7 +149,7 @@ public class Autonomous
                 }
             }
         }
-        else if (mode == 2) // Portcutlus
+        else if (mode == 2) // Portcullis
         {
             if (currentInstruction == 0)
             {
@@ -171,7 +172,7 @@ public class Autonomous
             }
             else  if (currentInstruction == 3)
             {
-                if (portcutlusMethod())
+                if (portcullisMethod())
                     currentInstruction++;
             }
             else if (currentInstruction == 4)
@@ -225,29 +226,30 @@ public class Autonomous
         currentInstruction = 0;
     }
 
-    public boolean portcutlusMethod()
+    public boolean portcullisMethod()
     {
-        if (portcutlusInstruction == 0)
+        lastPortcullisTime = System.nanoTime();
+        if (portcullisInstruction == 0)
         {
             duxDrive.moveArm(0.25);
-            incrementTime(3, PORTCUTLUS_INSTRUCTION);
+            incrementTime(3, PORTCULLIS_INSTRUCTION);
         }
-        else if (portcutlusInstruction == 1)
+        else if (portcullisInstruction == 1)
         {
             duxDrive.arcadeDrive(0.75, 0.0);
             if (frontLeftEncoder.getDistance() == 1.0)
             {
-                portcutlusInstruction++;
+                portcullisInstruction++;
                 frontLeftEncoder.reset();
             }
         }
-        else if (portcutlusInstruction == 2)
+        else if (portcullisInstruction == 2)
         {
             duxDrive.moveArm(-0.1);
             duxDrive.arcadeDrive(0.5, 0.0);
             if (frontLeftEncoder.getDistance() == 2.5)
             {
-                portcutlusInstruction = 0;
+                portcullisInstruction = 0;
                 return true;
             }
         }
@@ -257,6 +259,7 @@ public class Autonomous
 
     public boolean chevalMethod()
     {
+        lastChevalTime = System.nanoTime();
         if (chevalInstruction == 0)
         {
             duxDrive.arcadeDrive(0.5, 0.0);
@@ -296,9 +299,9 @@ public class Autonomous
             if (checkTime(secondsToWait, instruction))
                 chevalInstruction++;
 
-        if (instruction == PORTCUTLUS_INSTRUCTION)
+        if (instruction == PORTCULLIS_INSTRUCTION)
             if (checkTime(secondsToWait, instruction))
-                portcutlusInstruction++;
+                portcullisInstruction++;
     }
 
     public boolean checkTime(double secondsToWait, byte instruction)
@@ -323,11 +326,11 @@ public class Autonomous
 
             return false;
         }
-        else if (instruction == PORTCUTLUS_INSTRUCTION)
+        else if (instruction == PORTCULLIS_INSTRUCTION)
         {
-            if ((System.nanoTime() - lastPortcutlusTime) >= (secondsToWait * 1000000000))
+            if ((System.nanoTime() - lastPortcullisTime) >= (secondsToWait * 1000000000))
             {
-                lastPortcutlusTime = System.nanoTime();
+                lastPortcullisTime = System.nanoTime();
                 return true;
             }
 
@@ -335,6 +338,16 @@ public class Autonomous
         }
 
         return false;
+    }
+
+    public void chevalReset()
+    {
+        chevalInstruction = 0;
+    }
+
+    public void portcullisReset()
+    {
+        portcullisInstruction = 0;
     }
 
 }
