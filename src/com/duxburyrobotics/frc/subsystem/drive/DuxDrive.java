@@ -22,7 +22,7 @@ public class DuxDrive extends RobotDrive
 
     public DuxDrive()
     {
-        super(new CANTalon(1), new CANTalon(2), new CANTalon(3), new CANTalon(4));
+        super(new CANTalon(1), new CANTalon(4), new CANTalon(2), new CANTalon(3));
 
         this.middleWheelOne = new VictorSP(Constants.MIDDLE_WHEEL_LEFT_PORT);
         this.middleWheelTwo = new VictorSP(Constants.MIDDLE_WHEEL_RIGHT_PORT);
@@ -85,7 +85,7 @@ public class DuxDrive extends RobotDrive
     {
         if (limitSwitch.get() || limitSwitchReset)
         {
-            if (direction == 1)
+        	if (direction == 1)
             {
                 intakeSolenoid.set(DoubleSolenoid.Value.kForward);
                 rampSolenoid.set(DoubleSolenoid.Value.kReverse);
@@ -103,6 +103,7 @@ public class DuxDrive extends RobotDrive
 
             limitSwitchReset = false;
         }
+        
     }
 
     public void arcadeDrive(double moveValue, double rotateValue, boolean shouldMoveMiddleWheel)
