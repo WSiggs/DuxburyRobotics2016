@@ -40,12 +40,17 @@ public class Teleop
             isRampDown = true;
         }
         duxDrive.movePneumatics(pneumaticValue);
+        if (pneumaticValue == 0)
+            duxDrive.resetLimitSwitch();
+
         int intakeMotorValue = 0;
         if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_FORWARD_BUTTON))
             intakeMotorValue = 1;
         else if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_REVERSE_BUTTON))
             intakeMotorValue = -1;
         duxDrive.runIntakeMotor(intakeMotorValue, isRampDown);
+        if (intakeMotorValue == 0)
+            duxDrive.resetLimitSwitch();
         
         if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();

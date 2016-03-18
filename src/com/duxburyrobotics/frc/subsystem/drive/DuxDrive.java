@@ -18,6 +18,7 @@ public class DuxDrive extends RobotDrive
     private DoubleSolenoid rampSolenoid;
 
     private DigitalInput limitSwitch;
+    private boolean limitSwitchReset = false;
 
     public DuxDrive()
     {
@@ -44,7 +45,8 @@ public class DuxDrive extends RobotDrive
         if (moveValue < 0)
         {
             calculatedMoveValue = -(Math.pow(Math.abs(moveValue), Constants.ARM_SPEED_POWER));
-        } else
+        }
+        else
         {
             calculatedMoveValue = Math.pow(moveValue, Constants.ARM_SPEED_POWER);
         }
@@ -55,24 +57,33 @@ public class DuxDrive extends RobotDrive
 
     public void runIntakeMotor(int direction, boolean isRampDown)
     {
-        if (!limitSwitch.get())
+        if (limitSwitch.get() || limitSwitchReset)
         {
             if (direction == -1)
             {
                 intakeMotor.set(isRampDown ? -Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : -Constants.INTAKE_MOTOR_SPEED);
-            } else if (direction == 1)
+            }
+            else if (direction == 1)
             {
                 intakeMotor.set(isRampDown ? Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : Constants.INTAKE_MOTOR_SPEED);
-            } else
+            }
+            else
             {
                 intakeMotor.set(0);
             }
+
+            limitSwitchReset = false;
         }
+    }
+
+    public void resetLimitSwitch()
+    {
+        limitSwitchReset = true;
     }
 
     public void movePneumatics(int direction)
     {
-        if (!limitSwitch.get())
+        if (limitSwitch.get() || limitSwitchReset)
         {
             if (direction == 1)
             {
@@ -89,6 +100,8 @@ public class DuxDrive extends RobotDrive
                 intakeSolenoid.set(DoubleSolenoid.Value.kOff);
                 rampSolenoid.set(DoubleSolenoid.Value.kOff);
             }
+
+            limitSwitchReset = false;
         }
     }
 
