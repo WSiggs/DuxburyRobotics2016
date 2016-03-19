@@ -139,8 +139,8 @@ public class DuxDrive extends RobotDrive
 
         if(shouldMoveMiddleWheel)
         {
-            middleWheelOne.set(-calculatedMoveValue);
-            middleWheelTwo.set(calculatedMoveValue);
+            middleWheelOne.set(calculatedMoveValue);
+            middleWheelTwo.set(-calculatedMoveValue);
         }
         else
         {

@@ -33,9 +33,9 @@ public class Autonomous
         this.duxDrive = duxDrive;
 
         this.frontLeftEncoder = new Encoder(Constants.FRONT_LEFT_ENCODER_PORT_ONE, Constants.FRONT_LEFT_ENCODER_PORT_TWO);
-        this.rearLeftEncoder = new Encoder(Constants.REAR_LEFT_ENCODER_PORT_ONE, Constants.REAR_LEFT_ENCODER_PORT_TWO);
-        this.frontRightEncoder = new Encoder(Constants.FRONT_RIGHT_ENCODER_PORT_ONE, Constants.FRONT_RIGHT_ENCODER_PORT_TWO);
-        this.rearRightEncoder = new Encoder(Constants.REAR_RIGHT_ENCODER_PORT_ONE, Constants.REAR_RIGHT_ENCODER_PORT_TWO);
+//        this.rearLeftEncoder = new Encoder(Constants.REAR_LEFT_ENCODER_PORT_ONE, Constants.REAR_LEFT_ENCODER_PORT_TWO);
+//        this.frontRightEncoder = new Encoder(Constants.FRONT_RIGHT_ENCODER_PORT_ONE, Constants.FRONT_RIGHT_ENCODER_PORT_TWO);
+//        this.rearRightEncoder = new Encoder(Constants.REAR_RIGHT_ENCODER_PORT_ONE, Constants.REAR_RIGHT_ENCODER_PORT_TWO);
 
         this.frontLeftEncoder.setMaxPeriod(0.1);
         this.rearLeftEncoder.setMaxPeriod(0.1);
@@ -63,164 +63,181 @@ public class Autonomous
 
     public void autonomous()
     {
-        if (mode == 0) // Low Bar / Goal
-        {
-            if (currentInstruction == 0)
-            {
-                duxDrive.lowerIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 1)
-            {
-                duxDrive.raiseIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 2)
-            {
-                duxDrive.arcadeDrive(0.5, 0.0, true);
-                if (frontLeftEncoder.getDistance() == 10.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-            else if (currentInstruction == 3)
-            {
-                duxDrive.arcadeDrive(0.0, 0.5, false);
-                if (frontRightEncoder.getDistance() == 2)
-                {
-                    currentInstruction++;
-                    frontRightEncoder.reset();
-                }
-            }
-            else if (currentInstruction == 4)
-            {
-                duxDrive.arcadeDrive(0.5, 0.0, true);
-                if (frontLeftEncoder.getDistance() == 5.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-            else if (currentInstruction == 5)
-            {
-                duxDrive.lowerIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 6)
-            {
-                duxDrive.shootIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 7)
-            {
-                duxDrive.arcadeDrive(-0.5, 0.0, false);
-                if (frontLeftEncoder.getDistance() == -1.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-            else if (currentInstruction == 8)
-            {
-                duxDrive.stopAll();
-            }
-        }
-        else if (mode == 1) // B & D Defenses
-        {
-            if (currentInstruction == 0)
-            {
-                duxDrive.lowerIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 1)
-            {
-                duxDrive.raiseIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 2)
-            {
-                duxDrive.arcadeDrive(1, 0.0, true);
-                if (frontLeftEncoder.getDistance() == 10.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-        }
-        else if (mode == 2) // Portcullis
-        {
-            if (currentInstruction == 0)
-            {
-                duxDrive.lowerIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 1)
-            {
-                duxDrive.raiseIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 2)
-            {
-                duxDrive.arcadeDrive(0.5, 0.0, true);
-                if (frontLeftEncoder.getDistance() == 1.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-            else  if (currentInstruction == 3)
-            {
-                if (portcullisMethod())
-                    currentInstruction++;
-            }
-            else if (currentInstruction == 4)
-            {
-                duxDrive.arcadeDrive(0.5, 0.0, true);
-                if (frontLeftEncoder.getDistance() == 1.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-        }
-        else if (mode == 3) // Cheval
-        {
-            if (currentInstruction == 0)
-            {
-                duxDrive.lowerIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 1)
-            {
-                duxDrive.raiseIntake();
-                incrementTime(0.1, AUTO_INSTRUCTION);
-            }
-            else if (currentInstruction == 2)
-            {
-                duxDrive.arcadeDrive(0.5, 0.0, true);
-                if (frontLeftEncoder.getDistance() == 1.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-            else if (currentInstruction == 3)
-            {
-                if (chevalMethod())
-                    currentInstruction++;
-            }
-            else if (currentInstruction == 4)
-            {
-                duxDrive.arcadeDrive(0.5, 0.0, true);
-                if (frontLeftEncoder.getDistance() == 1.0)
-                {
-                    currentInstruction++;
-                    frontLeftEncoder.reset();
-                }
-            }
-        }
+//        if (mode == 0) // Low Bar / Goal
+//        {
+//            if (currentInstruction == 0)
+//            {
+//                duxDrive.lowerIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 1)
+//            {
+//                duxDrive.raiseIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 2)
+//            {
+//                duxDrive.arcadeDrive(0.5, 0.0, true);
+//                if (frontLeftEncoder.getDistance() == 10.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//            else if (currentInstruction == 3)
+//            {
+//                duxDrive.arcadeDrive(0.0, 0.5, false);
+//                if (frontRightEncoder.getDistance() == 2)
+//                {
+//                    currentInstruction++;
+//                    frontRightEncoder.reset();
+//                }
+//            }
+//            else if (currentInstruction == 4)
+//            {
+//                duxDrive.arcadeDrive(0.5, 0.0, true);
+//                if (frontLeftEncoder.getDistance() == 5.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//            else if (currentInstruction == 5)
+//            {
+//                duxDrive.lowerIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 6)
+//            {
+//                duxDrive.shootIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 7)
+//            {
+//                duxDrive.arcadeDrive(-0.5, 0.0, false);
+//                if (frontLeftEncoder.getDistance() == -1.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//            else if (currentInstruction == 8)
+//            {
+//                duxDrive.stopAll();
+//            }
+//        }
+//        else if (mode == 1) // B & D Defenses
+//        {
+//            if (currentInstruction == 0)
+//            {
+//                duxDrive.lowerIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 1)
+//            {
+//                duxDrive.raiseIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 2)
+//            {
+//                duxDrive.arcadeDrive(1, 0.0, true);
+//                if (frontLeftEncoder.getDistance() == 10.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//        }
+//        else if (mode == 2) // Portcullis
+//        {
+//            if (currentInstruction == 0)
+//            {
+//                duxDrive.lowerIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 1)
+//            {
+//                duxDrive.raiseIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 2)
+//            {
+//                duxDrive.arcadeDrive(0.5, 0.0, true);
+//                if (frontLeftEncoder.getDistance() == 1.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//            else  if (currentInstruction == 3)
+//            {
+//                if (portcullisMethod())
+//                    currentInstruction++;
+//            }
+//            else if (currentInstruction == 4)
+//            {
+//                duxDrive.arcadeDrive(0.5, 0.0, true);
+//                if (frontLeftEncoder.getDistance() == 1.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//        }
+//        else if (mode == 3) // Cheval
+//        {
+//            if (currentInstruction == 0)
+//            {
+//                duxDrive.lowerIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 1)
+//            {
+//                duxDrive.raiseIntake();
+//                incrementTime(0.1, AUTO_INSTRUCTION);
+//            }
+//            else if (currentInstruction == 2)
+//            {
+//                duxDrive.arcadeDrive(0.5, 0.0, true);
+//                if (frontLeftEncoder.getDistance() == 1.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//            else if (currentInstruction == 3)
+//            {
+//                if (chevalMethod())
+//                    currentInstruction++;
+//            }
+//            else if (currentInstruction == 4)
+//            {
+//                duxDrive.arcadeDrive(0.5, 0.0, true);
+//                if (frontLeftEncoder.getDistance() == 1.0)
+//                {
+//                    currentInstruction++;
+//                    frontLeftEncoder.reset();
+//                }
+//            }
+//        }
 
+    	if (currentInstruction == 0)
+    	{
+    		duxDrive.lowerIntake();
+    		incrementTime(.25, AUTO_INSTRUCTION);
+    	}
+    	else if (currentInstruction == 1)
+    	{
+    		duxDrive.raiseIntake();
+    		incrementTime(.25, AUTO_INSTRUCTION);
+    	}
+    	else if (currentInstruction == 2)
+    	{
+    		duxDrive.arcadeDrive(.5, 0, true);
+    		incrementTime(5, AUTO_INSTRUCTION);
+    	}
+    	
+    	
         lastTime = 0;
         currentInstruction = 0;
     }
