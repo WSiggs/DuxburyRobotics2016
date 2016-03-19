@@ -103,6 +103,11 @@ public class DuxDrive extends RobotDrive
 
             limitSwitchReset = false;
         }
+        else
+        {
+            intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+            rampSolenoid.set(DoubleSolenoid.Value.kForward);
+        }
         
     }
 
