@@ -4,7 +4,13 @@ package com.duxburyrobotics.frc;
 import com.duxburyrobotics.frc.subsystem.control.Autonomous;
 import com.duxburyrobotics.frc.subsystem.control.Teleop;
 import com.duxburyrobotics.frc.subsystem.drive.DuxDriveHelper;
+
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -20,6 +26,13 @@ public class Robot extends IterativeRobot
 
     private Teleop teleop;
     private Autonomous auto;
+    
+    private CameraServer camera;
+    
+    private Command autoCommand;
+    private SendableChooser autoChooser;
+    
+    private Autonomous currentAuto;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -29,9 +42,22 @@ public class Robot extends IterativeRobot
     {
         duxDriveHelper = new DuxDriveHelper();
 
-        auto = new Autonomous(duxDriveHelper);
+        auto = new Autonomous(duxDriveHelper, 0);
         teleop = new Teleop(duxDriveHelper, auto);
-
+        
+        autoChooser = new SendableChooser();
+        autoChooser.addDefault("Rockwall", auto);
+        autoChooser.addObject("Drive forward", new Autonomous(duxDriveHelper, 1));
+        autoChooser.addObject("Portcullis", new Autonomous(duxDriveHelper, 2));
+        SmartDashboard.putData("Auto Chooser", autoChooser);
+        
+        camera = CameraServer.getInstance();
+        camera.startAutomaticCapture("cam0");
+    }
+    
+    public void autonomousInit()
+    {
+    	((Autonomous)autoChooser.getSelected()).init();
     }
 
     /**
@@ -39,7 +65,7 @@ public class Robot extends IterativeRobot
      */
     public void autonomousPeriodic()
     {
-        auto.autonomous();
+        ((Autonomous)autoChooser.getSelected()).autonomous();
     }
 
     /**

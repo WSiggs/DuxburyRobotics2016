@@ -14,6 +14,8 @@ public class Teleop
     private Joystick operatorControl;
 
     private boolean isRampDown = false;
+    
+    private boolean middleWheel = false;
 
     public Teleop(DuxDriveHelper duxDrive, Autonomous auto)
     {
@@ -26,7 +28,12 @@ public class Teleop
 
     public void periodic()
     {
-        duxDrive.arcadeDrive(driverControl.getAxis(Joystick.AxisType.kY), driverControl.getAxis(Joystick.AxisType.kZ), true);
+    	if(driverControl.getRawButton(Constants.MIDDLE_WHEEL_TOGGLE))
+    		middleWheel = true;
+    	else
+    		middleWheel = false;
+    	
+        duxDrive.arcadeDrive(driverControl.getAxis(Joystick.AxisType.kY), driverControl.getAxis(Joystick.AxisType.kZ), middleWheel);
         duxDrive.moveArm(-operatorControl.getAxis(Constants.ARM_CONTROL_AXIS));
         int pneumaticValue = 0;
         if (operatorControl.getRawButton(Constants.LOWER_RAMP_BUTTON))
@@ -40,8 +47,6 @@ public class Teleop
             isRampDown = true;
         }
         duxDrive.movePneumatics(pneumaticValue);
-        if (pneumaticValue == 0)
-            duxDrive.resetLimitSwitch();
 
         int intakeMotorValue = 0;
         if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_FORWARD_BUTTON))
@@ -49,21 +54,21 @@ public class Teleop
         else if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_REVERSE_BUTTON))
             intakeMotorValue = -1;
         duxDrive.runIntakeMotor(intakeMotorValue, isRampDown);
-        if (intakeMotorValue == 0)
+        if (intakeMotorValue == 0 && pneumaticValue == 0)
             duxDrive.resetLimitSwitch();
         
         if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();
 
-        if (operatorControl.getRawButton(Constants.CHEVAL_BUTTON))
-            auto.chevalMethod();
-        else
-            auto.chevalReset();
+//        if (operatorControl.getRawButton(Constants.CHEVAL_BUTTON))
+//            //auto.chevalMethod();
+//        else
+//            auto.chevalReset();
 
-        if (operatorControl.getRawButton(Constants.PORTCULLIS_BUTTON))
-            auto.portcullisMethod();
-        else
-            auto.portcullisReset();
+//        if (operatorControl.getRawButton(Constants.PORTCULLIS_BUTTON))
+//            //auto.portcullisMethod();
+//        else
+//            auto.portcullisReset();
 
         
     }

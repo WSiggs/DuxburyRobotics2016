@@ -14,7 +14,7 @@ public class DuxDriveHelper extends DuxDrive
     public void shootBallOnPush()
     {
         lowerIntake();
-        shootIntake();
+        intakeIntake();
     }
 
     public void shootIntake()

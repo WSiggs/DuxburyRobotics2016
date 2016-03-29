@@ -2,6 +2,7 @@ package com.duxburyrobotics.frc.subsystem.drive;
 
 import com.duxburyrobotics.frc.settings.Constants;
 import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DuxDrive extends RobotDrive
 {
@@ -40,16 +41,7 @@ public class DuxDrive extends RobotDrive
 
     public void moveArm(double moveValue)
     {
-        double calculatedMoveValue = 0;
-
-        if (moveValue < 0)
-        {
-            calculatedMoveValue = -(Math.pow(Math.abs(moveValue), Constants.ARM_SPEED_POWER));
-        }
-        else
-        {
-            calculatedMoveValue = Math.pow(moveValue, Constants.ARM_SPEED_POWER);
-        }
+        double calculatedMoveValue = ((moveValue * 100) / Constants.ARM_SPEED_POWER) / 100;
 
         armLeft.set(calculatedMoveValue);
         armRight.set(calculatedMoveValue);
@@ -57,7 +49,9 @@ public class DuxDrive extends RobotDrive
 
     public void runIntakeMotor(int direction, boolean isRampDown)
     {
-        if (limitSwitch.get() || limitSwitchReset)
+    	SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
+       	
+        if (limitSwitch.get() && limitSwitchReset)
         {
             if (direction == -1)
             {
@@ -71,8 +65,9 @@ public class DuxDrive extends RobotDrive
             {
                 intakeMotor.set(0);
             }
-
-            limitSwitchReset = false;
+            
+        	if (limitSwitchReset && !limitSwitch.get())
+        		limitSwitchReset = false;
         }
     }
 
@@ -88,25 +83,27 @@ public class DuxDrive extends RobotDrive
         	if (direction == 1)
             {
                 intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-                rampSolenoid.set(DoubleSolenoid.Value.kReverse);
+                //rampSolenoid.set(DoubleSolenoid.Value.kReverse);
             }
             else if (direction == -1)
             {
                 intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-                rampSolenoid.set(DoubleSolenoid.Value.kForward);
+                //rampSolenoid.set(DoubleSolenoid.Value.kForward);
             }
             else
             {
                 intakeSolenoid.set(DoubleSolenoid.Value.kOff);
-                rampSolenoid.set(DoubleSolenoid.Value.kOff);
+                //rampSolenoid.set(DoubleSolenoid.Value.kOff);
             }
-
-            limitSwitchReset = false;
+        	
+        	if (limitSwitchReset && !limitSwitch.get())
+        		limitSwitchReset = false;
+        	
         }
         else
         {
             intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-            rampSolenoid.set(DoubleSolenoid.Value.kForward);
+            //rampSolenoid.set(DoubleSolenoid.Value.kForward);
         }
         
     }
@@ -144,8 +141,8 @@ public class DuxDrive extends RobotDrive
 
         if(shouldMoveMiddleWheel)
         {
-            middleWheelOne.set(calculatedMoveValue);
-            middleWheelTwo.set(-calculatedMoveValue);
+            middleWheelOne.set(-calculatedMoveValue);
+            middleWheelTwo.set(calculatedMoveValue);
         }
         else
         {
