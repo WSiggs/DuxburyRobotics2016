@@ -284,8 +284,8 @@ public class Autonomous
     	{
     		if(currentInstruction == 0)
     		{
-    			duxDrive.arcadeDrive(-0.66, 0.0, false);
-    			incrementTime(2, AUTO_INSTRUCTION);
+    			duxDrive.arcadeDrive(-0.3, 0.0, false);
+    			incrementTime(4, AUTO_INSTRUCTION);
     		}
     		else if (currentInstruction == 1)
     		{
