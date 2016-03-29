@@ -12,7 +12,7 @@ public class Constants
     public static final int ARM_RIGHT_MOTOR_PORT = 2;
 
     public static final Joystick.AxisType ARM_CONTROL_AXIS = Joystick.AxisType.kY;
-
+    
     public static final double ARM_SPEED_POWER = 5;
 
     public static final int RAMP_SOLENOID_PORT_ONE = 6;

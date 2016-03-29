@@ -47,13 +47,28 @@ public class Teleop
             isRampDown = true;
         }
         duxDrive.movePneumatics(pneumaticValue);
-
+        
         int intakeMotorValue = 0;
-        if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_FORWARD_BUTTON))
+        
+        /*if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_FORWARD_BUTTON))
             intakeMotorValue = 1;
         else if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_REVERSE_BUTTON))
             intakeMotorValue = -1;
-        duxDrive.runIntakeMotor(intakeMotorValue, isRampDown);
+        duxDrive.runIntakeMotor(intakeMotorValue, isRampDown);*/
+        
+        if(operatorControl.getRawAxis(2) > 0)
+		{
+			duxDrive.runIntakeMotor(operatorControl.getRawAxis(2), false);
+		}
+        else if(operatorControl.getRawAxis(3) > 0)
+		{
+			duxDrive.runIntakeMotor(operatorControl.getRawAxis(3), false);
+		}
+        else
+        {
+        	duxDrive.runIntakeMotor(0, false);
+        }
+        
         if (intakeMotorValue == 0 && pneumaticValue == 0)
             duxDrive.resetLimitSwitch();
         

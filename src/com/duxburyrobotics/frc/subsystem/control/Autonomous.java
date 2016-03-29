@@ -280,6 +280,31 @@ public class Autonomous
     			incrementTime(4, AUTO_INSTRUCTION);
     		}
     	}
+    	else if (mode == 3)
+    	{
+    		if(currentInstruction == 0)
+    		{
+    			duxDrive.arcadeDrive(-0.66, 0.0, false);
+    			incrementTime(2, AUTO_INSTRUCTION);
+    		}
+    		else if (currentInstruction == 1)
+    		{
+    			duxDrive.moveArm(0.75);
+    			incrementTime(2, AUTO_INSTRUCTION);
+    		}
+    		else if (currentInstruction == 2)
+    		{
+    			duxDrive.arcadeDrive(-0.66, 0.0, false);
+    			incrementTime(4, AUTO_INSTRUCTION);
+    		}
+    		else if (currentInstruction == 1)
+    		{
+    			duxDrive.moveArm(-0.75);
+    			incrementTime(2, AUTO_INSTRUCTION);
+    		}
+    		
+    		
+    	}
     }
 
 //    public boolean portcullisMethod()
