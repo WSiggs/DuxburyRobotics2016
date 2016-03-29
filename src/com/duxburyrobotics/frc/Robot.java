@@ -49,6 +49,7 @@ public class Robot extends IterativeRobot
         autoChooser.addDefault("Rockwall", auto);
         autoChooser.addObject("Drive forward", new Autonomous(duxDriveHelper, 1));
         autoChooser.addObject("Portcullis", new Autonomous(duxDriveHelper, 2));
+        autoChooser.addObject("Chevel", new Autonomous(duxDriveHelper, 3));
         SmartDashboard.putData("Auto Chooser", autoChooser);
         
         camera = CameraServer.getInstance();
