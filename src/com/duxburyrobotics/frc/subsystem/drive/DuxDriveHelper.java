@@ -19,12 +19,12 @@ public class DuxDriveHelper extends DuxDrive
 
     public void shootIntake()
     {
-        runIntakeMotor(INTAKE_FORWARD, false);
+        runIntakeMotor(INTAKE_FORWARD);
     }
 
     public void intakeIntake()
     {
-        runIntakeMotor(INTAKE_REVERSE, false);
+        runIntakeMotor(INTAKE_REVERSE);
     }
 
     public void raiseIntake()
@@ -40,7 +40,7 @@ public class DuxDriveHelper extends DuxDrive
     public void stopAll()
     {
         movePneumatics(PNEUMATICS_OFF);
-        runIntakeMotor(INTAKE_STOP, false);
+        runIntakeMotor(INTAKE_STOP);
         
     }
   	

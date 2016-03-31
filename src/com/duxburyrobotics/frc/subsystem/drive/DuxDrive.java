@@ -47,7 +47,7 @@ public class DuxDrive extends RobotDrive
         armRight.set(calculatedMoveValue);
     }
 
-    public void runIntakeMotor(double speed, boolean isRampDown)
+    public void runIntakeMotor(double speed)
     {
     	SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
        	
