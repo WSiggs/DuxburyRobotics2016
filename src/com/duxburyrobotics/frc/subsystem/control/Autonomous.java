@@ -1,7 +1,6 @@
 package com.duxburyrobotics.frc.subsystem.control;
 
 import com.duxburyrobotics.frc.subsystem.drive.DuxDriveHelper;
-import edu.wpi.first.wpilibj.Encoder;
 
 public class Autonomous
 {
@@ -14,18 +13,9 @@ public class Autonomous
 
     private DuxDriveHelper duxDrive;
 
-    private Encoder frontLeftEncoder;
-    private Encoder rearLeftEncoder;
-    private Encoder frontRightEncoder;
-    private Encoder rearRightEncoder;
-
     private int currentInstruction;
-    private int chevalInstruction;
-    private int portcullisInstruction;
 
     private long lastTime;
-    private long lastChevalTime;
-    private long lastPortcullisTime;
     
     private boolean firstTimeRun = true;
 
@@ -34,33 +24,9 @@ public class Autonomous
         this.duxDrive = duxDrive;
         this.mode = mode;
 
-        //this.frontLeftEncoder = new Encoder(Constants.FRONT_LEFT_ENCODER_PORT_ONE, Constants.FRONT_LEFT_ENCODER_PORT_TWO);
-//        this.rearLeftEncoder = new Encoder(Constants.REAR_LEFT_ENCODER_PORT_ONE, Constants.REAR_LEFT_ENCODER_PORT_TWO);
-//        this.frontRightEncoder = new Encoder(Constants.FRONT_RIGHT_ENCODER_PORT_ONE, Constants.FRONT_RIGHT_ENCODER_PORT_TWO);
-//        this.rearRightEncoder = new Encoder(Constants.REAR_RIGHT_ENCODER_PORT_ONE, Constants.REAR_RIGHT_ENCODER_PORT_TWO);
-
-        //this.frontLeftEncoder.setMaxPeriod(0.1);
-//        this.rearLeftEncoder.setMaxPeriod(0.1);
-//        this.frontRightEncoder.setMaxPeriod(0.1);
-//        this.rearRightEncoder.setMaxPeriod(0.1);
-
-        //this.frontLeftEncoder.setDistancePerPulse(5);
-//        this.rearLeftEncoder.setDistancePerPulse(5);
-//        this.frontRightEncoder.setDistancePerPulse(5);
-//        this.rearRightEncoder.setDistancePerPulse(5);
-
-        //this.frontLeftEncoder.setSamplesToAverage(50);
-//        this.rearLeftEncoder.setSamplesToAverage(50);
-//        this.frontRightEncoder.setSamplesToAverage(50);
-//        this.rearRightEncoder.setSamplesToAverage(50);
-
         this.currentInstruction = 0;
-        this.chevalInstruction = 0;
-        this.portcullisInstruction = 0;
 
         this.lastTime = System.nanoTime();
-        this.lastChevalTime = lastTime;
-        this.lastPortcullisTime = lastTime;
     }
 
     public void init()
@@ -81,22 +47,22 @@ public class Autonomous
     	{
     		if (currentInstruction == 0)
     		{
-    			incrementTime(1, AUTO_INSTRUCTION);
+    			incrementTime(1);
     		}
     		else if (currentInstruction == 1)
     		{
     			duxDrive.lowerIntake();
-    			incrementTime(1, AUTO_INSTRUCTION);
+    			incrementTime(1);
     		}
     		else if (currentInstruction == 2)
     		{
     			duxDrive.raiseIntake();
-    			incrementTime(1, AUTO_INSTRUCTION);
+    			incrementTime(1);
     		}
     		else if (currentInstruction == 3)
     		{
     			duxDrive.arcadeDrive(-0.85, 0.0, true);
-    			incrementTime(4, AUTO_INSTRUCTION);
+    			incrementTime(4);
     		}
     	}
     	else if (mode == 1)
@@ -104,7 +70,7 @@ public class Autonomous
     		if(currentInstruction == 0)
     		{
     			duxDrive.arcadeDrive(-0.66, 0.0, false);
-    			incrementTime(4, AUTO_INSTRUCTION);
+    			incrementTime(4);
     		}
     	}
     	else if (mode == 2)
@@ -112,12 +78,12 @@ public class Autonomous
     		if(currentInstruction == 0)
     		{
     			duxDrive.moveArm(0.75);
-    			incrementTime(2, AUTO_INSTRUCTION);
+    			incrementTime(2);
     		}
     		else if (currentInstruction == 1)
     		{
     			duxDrive.arcadeDrive(-0.66, 0.0, false);
-    			incrementTime(4, AUTO_INSTRUCTION);
+    			incrementTime(4);
     		}
     	}
     	else if (mode == 3)
@@ -125,22 +91,22 @@ public class Autonomous
     		if(currentInstruction == 0)
     		{
     			duxDrive.arcadeDrive(-0.3, 0.0, false);
-    			incrementTime(4, AUTO_INSTRUCTION);
+    			incrementTime(4);
     		}
     		else if (currentInstruction == 1)
     		{
     			duxDrive.moveArm(0.75);
-    			incrementTime(2, AUTO_INSTRUCTION);
+    			incrementTime(2);
     		}
     		else if (currentInstruction == 2)
     		{
     			duxDrive.arcadeDrive(-0.66, 0.0, false);
-    			incrementTime(4, AUTO_INSTRUCTION);
+    			incrementTime(4);
     		}
     		else if (currentInstruction == 3)
     		{
     			duxDrive.moveArm(-0.75);
-    			incrementTime(2, AUTO_INSTRUCTION);
+    			incrementTime(2);
     		}
     	}
         else if (mode == 4)
@@ -168,128 +134,21 @@ public class Autonomous
         }
     }
 
-//    public boolean portcullisMethod()
-//    {
-//        if (portcullisInstruction == 0)
-//        {
-//            duxDrive.moveArm(0.25);
-//            incrementTime(3, PORTCULLIS_INSTRUCTION);
-//        }
-//        else if (portcullisInstruction == 1)
-//        {
-//            duxDrive.arcadeDrive(0.75, 0.0);
-//            if (frontLeftEncoder.getDistance() == 1.0)
-//            {
-//                portcullisInstruction++;
-//                frontLeftEncoder.reset();
-//            }
-//        }
-//        else if (portcullisInstruction == 2)
-//        {
-//            duxDrive.moveArm(-0.1);
-//            duxDrive.arcadeDrive(0.5, 0.0);
-//            if (frontLeftEncoder.getDistance() == 2.5)
-//            {
-//                portcullisInstruction = 0;
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
-//
-//    public boolean chevalMethod()
-//    {
-//        if (chevalInstruction == 0)
-//        {
-//            duxDrive.arcadeDrive(0.5, 0.0);
-//            if (frontLeftEncoder.getDistance() == 1.0)
-//            {
-//                chevalInstruction++;
-//                frontLeftEncoder.reset();
-//            }
-//        }
-//        else if (chevalInstruction == 1)
-//        {
-//            duxDrive.moveArm(0.25);
-//            incrementTime(1, CHEVAL_INSTRUCTION);
-//        }
-//        else if (chevalInstruction == 2)
-//        {
-//            duxDrive.arcadeDrive(0.5, 0.0);
-//            duxDrive.moveArm(-0.1);
-//
-//            if (checkTime(5, CHEVAL_INSTRUCTION))
-//            {
-//                chevalInstruction = 0;
-//                return true;
-//            }
-//        }
-//
-//        return false;
-//    }
-//
-    public void incrementTime(double secondsToWait, byte instruction)
+    public void incrementTime(double secondsToWait)
     {
-        if (instruction == AUTO_INSTRUCTION)
-            if (checkTime(secondsToWait, instruction))
+        if (checkTime(secondsToWait))
                 currentInstruction++;
-
-        if (instruction == CHEVAL_INSTRUCTION)
-            if (checkTime(secondsToWait, instruction))
-                chevalInstruction++;
-
-        if (instruction == PORTCULLIS_INSTRUCTION)
-            if (checkTime(secondsToWait, instruction))
-                portcullisInstruction++;
     }
 
-    public boolean checkTime(double secondsToWait, byte instruction)
+    public boolean checkTime(double secondsToWait)
     {
-        if (instruction == AUTO_INSTRUCTION)
+        if ((System.nanoTime() - lastTime) >= (secondsToWait * 1000000000))
         {
-            if ((System.nanoTime() - lastTime) >= (secondsToWait * 1000000000))
-            {
-                lastTime = System.nanoTime();
-                return true;
-            }
-
-            return false;
-        }
-        else if (instruction == CHEVAL_INSTRUCTION)
-        {
-            if ((System.nanoTime() - lastChevalTime) >= (secondsToWait * 1000000000))
-            {
-                lastChevalTime = System.nanoTime();
-                return true;
-            }
-
-            return false;
-        }
-        else if (instruction == PORTCULLIS_INSTRUCTION)
-        {
-            if ((System.nanoTime() - lastPortcullisTime) >= (secondsToWait * 1000000000))
-            {
-                lastPortcullisTime = System.nanoTime();
-                return true;
-            }
-
-            return false;
+            lastTime = System.nanoTime();
+            return true;
         }
 
         return false;
-    }
-
-    public void chevalReset()
-    {
-        chevalInstruction = 0;
-        lastChevalTime = System.nanoTime();
-    }
-
-    public void portcullisReset()
-    {
-        portcullisInstruction = 0;
-        lastChevalTime = System.nanoTime();
     }
 
 }
