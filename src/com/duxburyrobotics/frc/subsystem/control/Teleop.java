@@ -28,13 +28,14 @@ public class Teleop
 
     public void periodic()
     {
-    	if(driverControl.getRawButton(Constants.MIDDLE_WHEEL_TOGGLE))
-    		middleWheel = true;
-    	else
-    		middleWheel = false;
-    	
+        // Middle wheel and driving
+        middleWheel = driverControl.getRawButton(Constants.MIDDLE_WHEEL_TOGGLE);
         duxDrive.arcadeDrive(driverControl.getAxis(Joystick.AxisType.kY), driverControl.getAxis(Joystick.AxisType.kZ), middleWheel);
+
+        // Move the arm
         duxDrive.moveArm(-operatorControl.getAxis(Constants.ARM_CONTROL_AXIS));
+
+        // Move the pneumatics
         int pneumaticValue = 0;
         if (operatorControl.getRawButton(Constants.LOWER_RAMP_BUTTON))
         {
@@ -47,42 +48,20 @@ public class Teleop
             isRampDown = true;
         }
         duxDrive.movePneumatics(pneumaticValue);
-        
-        int intakeMotorValue = 0;
-        
-        /*if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_FORWARD_BUTTON))
-            intakeMotorValue = 1;
-        else if (operatorControl.getRawButton(Constants.INTAKE_MOTOR_REVERSE_BUTTON))
-            intakeMotorValue = -1;
-        duxDrive.runIntakeMotor(intakeMotorValue, isRampDown);*/
-        
-        if(operatorControl.getRawAxis(2) > 0)
-		{
-			duxDrive.runIntakeMotor(operatorControl.getRawAxis(2), false);
-		}
-        else if(operatorControl.getRawAxis(3) > 0)
-		{
-			duxDrive.runIntakeMotor(operatorControl.getRawAxis(3), false);
-		}
-        else
-        {
-        	duxDrive.runIntakeMotor(0, false);
-        }
-        
+
+        // Intake motor
+        double intakeMotorValue = operatorControl.getRawAxis(2) - operatorControl.getRawAxis(3);
+
+        if (intakeMotorValue < 0.05 && intakeMotorValue > -0.05) intakeMotorValue = 0;
+        duxDrive.runIntakeMotor(operatorControl.getRawAxis(2));
+
+        // Reset the limit switch
         if (intakeMotorValue == 0 && pneumaticValue == 0)
             duxDrive.resetLimitSwitch();
-        
+
+        // Shoot ball
         if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();
-
-//        if (operatorControl.getRawButton(Constants.CHEVAL_BUTTON))
-//            //auto.chevalMethod();
-//        else
-//            auto.chevalReset();
-
-//        if (operatorControl.getRawButton(Constants.PORTCULLIS_BUTTON))
-//            //auto.portcullisMethod();
-//        else
-//            auto.portcullisReset();
+        
     }
 }
