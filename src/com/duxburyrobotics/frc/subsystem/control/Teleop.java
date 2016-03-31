@@ -84,7 +84,5 @@ public class Teleop
 //            //auto.portcullisMethod();
 //        else
 //            auto.portcullisReset();
-
-        
     }
 }

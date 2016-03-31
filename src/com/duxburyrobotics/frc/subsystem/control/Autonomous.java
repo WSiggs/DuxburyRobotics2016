@@ -297,14 +297,35 @@ public class Autonomous
     			duxDrive.arcadeDrive(-0.66, 0.0, false);
     			incrementTime(4, AUTO_INSTRUCTION);
     		}
-    		else if (currentInstruction == 1)
+    		else if (currentInstruction == 3)
     		{
     			duxDrive.moveArm(-0.75);
     			incrementTime(2, AUTO_INSTRUCTION);
     		}
-    		
-    		
     	}
+        else if (mode == 4)
+        {
+            if(currentInstruction == 0)
+            {
+                duxDrive.arcadeDrive(-0.66, 0.0, false);
+                incrementTime(4, AUTO_INSTRUCTION);
+            }
+            else if(currentInstruction == 1)
+            {
+                duxDrive.arcadeDrive(0, -0.5, false);
+                incrementTime(2, AUTO_INSTRUCTION);
+            }
+            else if(currentInstruction == 2)
+            {
+                duxDrive.arcadeDrive(-0.66, 0.0, false);
+                incrementTime(2, AUTO_INSTRUCTION);
+            }
+            else if(currentInstruction == 3)
+            {
+                duxDrive.runIntakeMotor(1.0, false);
+                incrementTime(2, AUTO_INSTRUCTION);
+            }
+        }
     }
 
 //    public boolean portcullisMethod()
