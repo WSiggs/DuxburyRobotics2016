@@ -32,6 +32,12 @@ public class Teleop
         middleWheel = driverControl.getRawButton(Constants.MIDDLE_WHEEL_TOGGLE);
         duxDrive.arcadeDrive(driverControl.getAxis(Joystick.AxisType.kY), driverControl.getAxis(Joystick.AxisType.kZ), middleWheel);
 
+        // Arm Buttons
+        if (operatorControl.getRawButton(Constants.ARM_DOWN_BUTTON))
+            duxDrive.moveArmWithLimitSwitchChecking(true);
+        else if (operatorControl.getRawButton(Constants.ARM_UP_BUTTON))
+            duxDrive.moveArmWithLimitSwitchChecking(false);
+
         // Move the arm
         duxDrive.moveArm(-operatorControl.getAxis(Constants.ARM_CONTROL_AXIS));
 

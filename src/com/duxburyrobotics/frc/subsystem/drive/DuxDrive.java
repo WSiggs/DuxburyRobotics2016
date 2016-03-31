@@ -19,6 +19,10 @@ public class DuxDrive extends RobotDrive
     private DoubleSolenoid rampSolenoid;
 
     private DigitalInput limitSwitch;
+    private DigitalInput armLimitSwitchOneForward;
+    private DigitalInput armLimitSwitchOneBack;
+    private DigitalInput armLimitSwitchTwoForward;
+    private DigitalInput armLimitSwitchTwoBack;
     private boolean limitSwitchReset = true;
     private boolean limitSwitchResetTwo = true;
 
@@ -38,6 +42,10 @@ public class DuxDrive extends RobotDrive
         this.rampSolenoid = new DoubleSolenoid(Constants.RAMP_SOLENOID_PORT_ONE, Constants.RAMP_SOLENOID_PORT_TWO);
 
         this.limitSwitch = new DigitalInput(Constants.LIMIT_SWITCH_PORT);
+        this.armLimitSwitchOneForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_FORWARD);
+        this.armLimitSwitchOneBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_BACK);
+        this.armLimitSwitchTwoForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_FORWARD);
+        this.armLimitSwitchTwoBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_BACK);
     }
 
     public void moveArm(double moveValue)
@@ -94,6 +102,25 @@ public class DuxDrive extends RobotDrive
             intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
         }
         
+    }
+
+    public void moveArmWithLimitSwitchChecking(boolean forward)
+    {
+        if (forward)
+        {
+            if (!armLimitSwitchOneForward.get())
+                armLeft.set(0.33);
+            if (!armLimitSwitchTwoForward.get())
+                armRight.set(0.33);
+        }
+        else
+        {
+            if (!armLimitSwitchOneBack.get())
+                armLeft.set(-0.33);
+            if (!armLimitSwitchTwoBack.get())
+                armRight.set(-0.33);
+        }
+
     }
 
     public void arcadeDrive(double moveValue, double rotateValue, boolean shouldMoveMiddleWheel)
