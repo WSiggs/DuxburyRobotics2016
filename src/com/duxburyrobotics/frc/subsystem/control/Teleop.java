@@ -2,7 +2,10 @@ package com.duxburyrobotics.frc.subsystem.control;
 
 import com.duxburyrobotics.frc.settings.Constants;
 import com.duxburyrobotics.frc.subsystem.drive.DuxDriveHelper;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Compressor;
 
 public class Teleop
 {
@@ -12,22 +15,34 @@ public class Teleop
 
     private Joystick driverControl;
     private Joystick operatorControl;
+    
+    private Compressor compressor;
+    
+    private DigitalInput limitSwitch;
 
     private boolean isRampDown = false;
     
     private boolean middleWheel = false;
+    
+    private boolean runComp;
 
-    public Teleop(DuxDriveHelper duxDrive, Autonomous auto)
+    public Teleop(DuxDriveHelper duxDrive, Autonomous auto, boolean runComp)
     {
         this.duxDrive = duxDrive;
         this.auto = auto;
+        
+        this.compressor = new Compressor();
+        
+        this.runComp = runComp;
+        
+        limitSwitch = new DigitalInput(Constants.LIMIT_SWITCH_PORT);
 
         this.driverControl = new Joystick(0);
         this.operatorControl = new Joystick(1);
     }
 
     public void periodic()
-    {
+    {	
         // Middle wheel and driving
         middleWheel = driverControl.getRawButton(Constants.MIDDLE_WHEEL_TOGGLE);
         duxDrive.arcadeDrive(driverControl.getAxis(Joystick.AxisType.kY), driverControl.getAxis(Joystick.AxisType.kZ), middleWheel);
@@ -61,13 +76,19 @@ public class Teleop
         if (intakeMotorValue < 0.05 && intakeMotorValue > -0.05) intakeMotorValue = 0;
         duxDrive.runIntakeMotor(operatorControl.getRawAxis(2));
 
-        // Reset the limit switch
-        if (intakeMotorValue == 0 && pneumaticValue == 0)
-            duxDrive.resetLimitSwitch();
-
         // Shoot ball
         if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();
         
+        if(operatorControl.getRawButton(Constants.GET_BALL_BUTTON))
+        		duxDrive.getBall();   
+    }
+    
+    public void init()
+    {
+    	if(!runComp)
+    	{
+    		compressor.stop();
+    	}
     }
 }
