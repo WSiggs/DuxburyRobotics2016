@@ -3,6 +3,7 @@ package com.duxburyrobotics.frc.subsystem.control;
 import com.duxburyrobotics.frc.settings.Constants;
 import com.duxburyrobotics.frc.subsystem.drive.DuxDriveHelper;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Compressor;
 
 public class Teleop
 {
@@ -13,18 +14,26 @@ public class Teleop
     private Joystick driverControl;
     private Joystick operatorControl;
 
+    private Compressor compressor;
+    
     private boolean isRampDown = false;
     
     private boolean middleWheel = false;
 
     public boolean catchingBall = false;
     public boolean armMoving = false;
+    
+    public boolean runComp = true;
 
-    public Teleop(DuxDriveHelper duxDrive, Autonomous auto)
+    public Teleop(DuxDriveHelper duxDrive, Autonomous auto, boolean runComp)
     {
         this.duxDrive = duxDrive;
         this.auto = auto;
 
+        this.runComp = runComp;
+        
+        this.compressor = new Compressor();
+        
         this.driverControl = new Joystick(0);
         this.operatorControl = new Joystick(1);
     }
@@ -97,5 +106,11 @@ public class Teleop
             duxDrive.moveArm(0);
             this.armMoving = false;
         }
+    }
+    
+    public void init()
+    {
+    	if(!this.runComp)
+    		this.compressor.stop();
     }
 }
