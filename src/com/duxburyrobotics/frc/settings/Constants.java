@@ -24,8 +24,10 @@ public class Constants
     public static final int INTAKE_SOLENOID_PORT_ONE = 5;
     public static final int INTAKE_SOLENOID_PORT_TWO = 4;
 
-    public static final int INTAKE_MOTOR_FORWARD_BUTTON = 4;
-    public static final int INTAKE_MOTOR_REVERSE_BUTTON = 1;
+    //public static final int INTAKE_MOTOR_FORWARD_BUTTON = 4;
+    //public static final int INTAKE_MOTOR_REVERSE_BUTTON = 1;
+    
+    public static final int GET_BALL_BUTTON = 4;
 
     public static final int INTAKE_MOTOR_PORT = 0;
 

@@ -2,7 +2,9 @@
 package com.duxburyrobotics.frc;
 
 import com.duxburyrobotics.frc.subsystem.control.Autonomous;
+
 import com.duxburyrobotics.frc.subsystem.control.Teleop;
+import com.duxburyrobotics.frc.subsystem.drive.DuxDrive;
 import com.duxburyrobotics.frc.subsystem.drive.DuxDriveHelper;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -19,6 +21,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot
 {
+	
+	private DuxDrive duxDrive;
 
     private DuxDriveHelper duxDriveHelper;
 
@@ -30,6 +34,8 @@ public class Robot extends IterativeRobot
     private Command autoCommand;
     private SendableChooser autoChooser;
     
+    private SendableChooser compressorChooser;
+    
     private Autonomous currentAuto;
 
     /**
@@ -38,10 +44,11 @@ public class Robot extends IterativeRobot
      */
     public void robotInit()
     {
+    	duxDrive = new DuxDrive();
         duxDriveHelper = new DuxDriveHelper();
 
         auto = new Autonomous(duxDriveHelper, 0);
-        teleop = new Teleop(duxDriveHelper, auto);
+        teleop = new Teleop(duxDriveHelper, auto, true);
         
         autoChooser = new SendableChooser();
         autoChooser.addDefault("Rockwall", auto);
@@ -50,6 +57,11 @@ public class Robot extends IterativeRobot
         autoChooser.addObject("Chevel", new Autonomous(duxDriveHelper, 3));
         autoChooser.addObject("Low Goal", new Autonomous(duxDriveHelper, 4));
         SmartDashboard.putData("Auto Chooser", autoChooser);
+        
+        compressorChooser = new SendableChooser();
+        compressorChooser.addDefault("on", teleop);
+        compressorChooser.addObject("off", new Teleop(duxDriveHelper, auto, false));
+        SmartDashboard.putData("Compressor Chooser", compressorChooser);
         
         camera = CameraServer.getInstance();
         camera.startAutomaticCapture("cam0");
@@ -66,6 +78,11 @@ public class Robot extends IterativeRobot
     public void autonomousPeriodic()
     {
         ((Autonomous)autoChooser.getSelected()).autonomous();
+    }
+    
+    public void teleopInit()
+    {
+    	((Teleop)compressorChooser.getSelected()).init();
     }
 
     /**
