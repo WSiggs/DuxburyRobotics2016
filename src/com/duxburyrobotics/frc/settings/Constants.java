@@ -59,4 +59,12 @@ public class Constants
     public static final int ARM_LIMIT_SWITCH_PORT_TWO_BACK = -1;
     public static final int ARM_DOWN_BUTTON = -1;
     public static final int ARM_UP_BUTTON = -1;
+
+    public static final int ARMIN_SWITCH_PORT = 8;
+    public static final int ARMOUT_SWITCH_PORT = 9;
+
+    public static final int GET_BALL_BUTTON = 4;
+
+    public static final int ARM_FORWARD_BUTTON = 2;
+    public static final int ARM_BACKWARD_BUTTON = 3;
 }

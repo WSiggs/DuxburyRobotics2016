@@ -17,6 +17,9 @@ public class Teleop
     
     private boolean middleWheel = false;
 
+    public boolean catchingBall = false;
+    public boolean armMoving = false;
+
     public Teleop(DuxDriveHelper duxDrive, Autonomous auto)
     {
         this.duxDrive = duxDrive;
@@ -61,13 +64,38 @@ public class Teleop
         if (intakeMotorValue < 0.05 && intakeMotorValue > -0.05) intakeMotorValue = 0;
         duxDrive.runIntakeMotor(operatorControl.getRawAxis(2));
 
-        // Reset the limit switch
-        if (intakeMotorValue == 0 && pneumaticValue == 0)
-            duxDrive.resetLimitSwitch();
-
         // Shoot ball
         if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();
-        
+
+        if(operatorControl.getRawButton(Constants.GET_BALL_BUTTON))
+        {
+            duxDrive.intakeBall();
+            this.catchingBall = true;
+        }
+
+        if(this.catchingBall && duxDrive.ballIn())
+        {
+            this.catchingBall = true;
+            duxDrive.stopAll();
+        }
+
+        if(operatorControl.getRawButton(Constants.ARM_FORWARD_BUTTON))
+        {
+            duxDrive.armsOut();
+            this.armMoving = true;
+        }
+
+        if(operatorControl.getRawButton(Constants.ARM_BACKWARD_BUTTON))
+        {
+            duxDrive.armsIn();
+            this.armMoving = true;
+        }
+
+        if(this.armMoving && (duxDrive.armOut() || duxDrive.armIn()))
+        {
+            duxDrive.moveArm(0);
+            this.armMoving = false;
+        }
     }
 }
