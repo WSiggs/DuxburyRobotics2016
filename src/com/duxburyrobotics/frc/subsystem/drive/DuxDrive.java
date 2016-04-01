@@ -19,7 +19,12 @@ public class DuxDrive extends RobotDrive
     private DoubleSolenoid rampSolenoid;
 
     private DigitalInput limitSwitch;
-    private boolean limitSwitchReset = false;
+    private DigitalInput armLimitSwitchOneForward;
+    private DigitalInput armLimitSwitchOneBack;
+    private DigitalInput armLimitSwitchTwoForward;
+    private DigitalInput armLimitSwitchTwoBack;
+    private boolean limitSwitchReset = true;
+    private boolean limitSwitchResetTwo = true;
 
     public DuxDrive()
     {
@@ -37,6 +42,10 @@ public class DuxDrive extends RobotDrive
         this.rampSolenoid = new DoubleSolenoid(Constants.RAMP_SOLENOID_PORT_ONE, Constants.RAMP_SOLENOID_PORT_TWO);
 
         this.limitSwitch = new DigitalInput(Constants.LIMIT_SWITCH_PORT);
+        this.armLimitSwitchOneForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_FORWARD);
+        this.armLimitSwitchOneBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_BACK);
+        this.armLimitSwitchTwoForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_FORWARD);
+        this.armLimitSwitchTwoBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_BACK);
     }
 
     public void moveArm(double moveValue)
@@ -50,27 +59,17 @@ public class DuxDrive extends RobotDrive
     public void runIntakeMotor(double speed)
     {
     	SmartDashboard.putBoolean("Limit Switch", limitSwitch.get());
-       	
-        /*if (limitSwitch.get() && limitSwitchReset)
+
+        if (!limitSwitch.get())
         {
-            if (direction == -1)
-            {
-                intakeMotor.set(isRampDown ? -Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : -Constants.INTAKE_MOTOR_SPEED);
-            }
-            else if (direction == 1)
-            {
-                intakeMotor.set(isRampDown ? Constants.RAMP_DOWN_INTAKE_MOTOR_SPEED : Constants.INTAKE_MOTOR_SPEED);
-            }
-            else
-            {
-                intakeMotor.set(0);
-            }
-            
-        	if (limitSwitchReset && !limitSwitch.get())
-        		limitSwitchReset = false;
-        }*/
-    	
-    	intakeMotor.set(speed);
+            limitSwitchResetTwo = false;
+            limitSwitchReset = false;
+        }
+
+        if (limitSwitch.get() && limitSwitchReset && limitSwitchResetTwo)
+        {
+            intakeMotor.set(speed);
+        }
     }
 
     public void resetLimitSwitch()
@@ -85,29 +84,43 @@ public class DuxDrive extends RobotDrive
         	if (direction == 1)
             {
                 intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-                //rampSolenoid.set(DoubleSolenoid.Value.kReverse);
             }
             else if (direction == -1)
             {
                 intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-                //rampSolenoid.set(DoubleSolenoid.Value.kForward);
             }
             else
             {
                 intakeSolenoid.set(DoubleSolenoid.Value.kOff);
-                //rampSolenoid.set(DoubleSolenoid.Value.kOff);
             }
         	
         	if (limitSwitchReset && !limitSwitch.get())
         		limitSwitchReset = false;
-        	
         }
         else
         {
             intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-            //rampSolenoid.set(DoubleSolenoid.Value.kForward);
         }
         
+    }
+
+    public void moveArmWithLimitSwitchChecking(boolean forward)
+    {
+        if (forward)
+        {
+            if (!armLimitSwitchOneForward.get())
+                armLeft.set(0.33);
+            if (!armLimitSwitchTwoForward.get())
+                armRight.set(0.33);
+        }
+        else
+        {
+            if (!armLimitSwitchOneBack.get())
+                armLeft.set(-0.33);
+            if (!armLimitSwitchTwoBack.get())
+                armRight.set(-0.33);
+        }
+
     }
 
     public void arcadeDrive(double moveValue, double rotateValue, boolean shouldMoveMiddleWheel)
@@ -127,18 +140,6 @@ public class DuxDrive extends RobotDrive
             calculatedMoveValue = Math.pow(moveValue, 1.8);
         }
 
-        /** Left / Right calculations */
-
-        if (rotateValue < 0.0)
-        {
-            // NOTE (Brendan): This means that the value is negative.
-            calculatedRotateValue = -(Math.pow(Math.abs(rotateValue), 1.8));
-        }
-        else
-        {
-            calculatedRotateValue = (Math.pow(rotateValue, 1.8));
-        }
-
         /** Check if we should activate the middle wheel **/
 
         if(shouldMoveMiddleWheel)
@@ -155,9 +156,9 @@ public class DuxDrive extends RobotDrive
         /** Actually move the bot */
 
         calculatedMoveValue = -calculatedMoveValue;
-        calculatedRotateValue = -calculatedRotateValue;
+        rotateValue = -rotateValue;
 
-        super.arcadeDrive(calculatedMoveValue, calculatedRotateValue, false);
+        super.arcadeDrive(calculatedMoveValue, rotateValue, false);
 
     }
 

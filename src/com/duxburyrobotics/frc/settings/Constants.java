@@ -52,4 +52,11 @@ public class Constants
     public static final int LIMIT_SWITCH_PORT = 9;
     
     public static final int MIDDLE_WHEEL_TOGGLE = 2;
+
+    public static final int ARM_LIMIT_SWITCH_PORT_ONE_FORWARD = -1;
+    public static final int ARM_LIMIT_SWITCH_PORT_ONE_BACK = -1;
+    public static final int ARM_LIMIT_SWITCH_PORT_TWO_FORWARD = -1;
+    public static final int ARM_LIMIT_SWITCH_PORT_TWO_BACK = -1;
+    public static final int ARM_DOWN_BUTTON = -1;
+    public static final int ARM_UP_BUTTON = -1;
 }

@@ -7,10 +7,6 @@ public class DuxDriveHelper extends DuxDrive
     public static final int PNEUMATICS_DOWN = -1;
     public static final int PNEUMATICS_OFF = 0;
 
-    public static final int INTAKE_REVERSE = 1;
-    public static final int INTAKE_FORWARD = -1;
-    public static final int INTAKE_STOP = 0;
-
     public void shootBallOnPush()
     {
         lowerIntake();
@@ -19,12 +15,12 @@ public class DuxDriveHelper extends DuxDrive
 
     public void shootIntake()
     {
-        runIntakeMotor(INTAKE_FORWARD);
+        runIntakeMotor(1);
     }
 
     public void intakeIntake()
     {
-        runIntakeMotor(INTAKE_REVERSE);
+        runIntakeMotor(-1);
     }
 
     public void raiseIntake()
@@ -40,7 +36,7 @@ public class DuxDriveHelper extends DuxDrive
     public void stopAll()
     {
         movePneumatics(PNEUMATICS_OFF);
-        runIntakeMotor(INTAKE_STOP);
+        runIntakeMotor(0);
         
     }
   	
