@@ -142,21 +142,4 @@ public class DuxDrive extends RobotDrive
         super.arcadeDrive(calculatedMoveValue, rotateValue, false);
 
     }
-    
-    public void getBall()
-    {
-    	movePneumatics(1);
-    	
-    	runIntakeMotor(.5);
-    	
-    	while (true)
-    	{
-    		if(!this.limitSwitch.get())
-    		{
-    			runIntakeMotor(0);
-    			movePneumatics(-1);
-    			break;
-    		}
-    	} 
-    }
 }
