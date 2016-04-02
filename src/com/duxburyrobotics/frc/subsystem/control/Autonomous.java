@@ -88,22 +88,32 @@ public class Autonomous
     	}
     	else if (mode == 3) // cheval
     	{
-    		if(currentInstruction == 0)
+    		if (currentInstruction == 0)
     		{
-    			duxDrive.arcadeDrive(-0.3, 0.0, false);
-    			incrementTime(4);
+    			duxDrive.lowerIntake();
+    			incrementTime(1);
     		}
     		else if (currentInstruction == 1)
     		{
-    			duxDrive.moveArm(0.75);
-    			incrementTime(2);
+    			duxDrive.raiseIntake();
+    			incrementTime(1);
     		}
-    		else if (currentInstruction == 2)
+    		else if(currentInstruction == 2)
     		{
-    			duxDrive.arcadeDrive(-0.66, 0.0, false);
-    			incrementTime(4);
+    			duxDrive.arcadeDrive(-0.3, 0.0, false);
+    			incrementTime(4.5);
     		}
     		else if (currentInstruction == 3)
+    		{
+    			duxDrive.moveArm(0.5);
+    			incrementTime(2);
+    		}
+    		else if (currentInstruction == 4)
+    		{
+    			duxDrive.arcadeDrive(-0.66, 0.0, false);
+    			incrementTime(3);
+    		}
+    		else if (currentInstruction == 5)
     		{
     			duxDrive.moveArm(-0.75);
     			incrementTime(2);

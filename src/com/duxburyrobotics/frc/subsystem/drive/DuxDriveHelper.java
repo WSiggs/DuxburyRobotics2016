@@ -92,7 +92,7 @@ public class DuxDriveHelper extends DuxDrive
 
     public void intakeIntake()
     {
-        runIntakeMotor(.4);
+        runIntakeMotor(.5);
     }
 
     public void raiseIntake()
