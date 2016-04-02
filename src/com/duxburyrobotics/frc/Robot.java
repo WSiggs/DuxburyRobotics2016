@@ -21,21 +21,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Robot extends IterativeRobot
 {
-	
-	private DuxDrive duxDrive;
-
     private DuxDriveHelper duxDriveHelper;
 
     private Teleop teleop;
     private Autonomous auto;
-    
+
     private CameraServer camera;
-    
+
     private SendableChooser autoChooser;
     
     private SendableChooser compressorChooser;
-    
-    private Autonomous currentAuto;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -47,21 +42,21 @@ public class Robot extends IterativeRobot
         duxDriveHelper = new DuxDriveHelper();
 
         auto = new Autonomous(duxDriveHelper, 0);
-        teleop = new Teleop(duxDriveHelper, auto, true);
+        teleop = new Teleop(duxDriveHelper, true);
         
         autoChooser = new SendableChooser();
         autoChooser.addDefault("Rockwall", auto);
         autoChooser.addObject("Drive forward", new Autonomous(duxDriveHelper, 1));
         autoChooser.addObject("Portcullis", new Autonomous(duxDriveHelper, 2));
-        autoChooser.addObject("Chevel", new Autonomous(duxDriveHelper, 3));
+        autoChooser.addObject("Cheval", new Autonomous(duxDriveHelper, 3));
         autoChooser.addObject("Low Goal", new Autonomous(duxDriveHelper, 4));
         SmartDashboard.putData("Auto Chooser", autoChooser);
         
         compressorChooser = new SendableChooser();
-        compressorChooser.addDefault("on", teleop);
-        compressorChooser.addObject("off", new Teleop(duxDriveHelper, auto, false));
+        compressorChooser.addDefault("On", teleop);
+        compressorChooser.addObject("Off", new Teleop(duxDriveHelper, false));
         SmartDashboard.putData("Compressor Chooser", compressorChooser);
-        
+
         camera = CameraServer.getInstance();
         camera.startAutomaticCapture("cam0");
     }

@@ -4,14 +4,9 @@ import com.duxburyrobotics.frc.subsystem.drive.DuxDriveHelper;
 
 public class Autonomous
 {
+	private int mode = 0; // 0 == Low Bar/Goal, 1 == Pass B & D Defense, 2 == Portcullis, 3 == Cheval
 
-    private final byte AUTO_INSTRUCTION = 0x00;
-    private final byte CHEVAL_INSTRUCTION = 0x01;
-    private final byte PORTCULLIS_INSTRUCTION = 0x02;
-
-    private int mode = 0; // 0 == Low Bar/Goal, 1 == Pass B & D Defense, 2 == Portcullis, 3 == Cheval
-
-    private DuxDriveHelper duxDrive;
+    private final DuxDriveHelper duxDrive;
 
     private int currentInstruction;
 
@@ -144,13 +139,13 @@ public class Autonomous
         }
     }
 
-    public void incrementTime(double secondsToWait)
+    private void incrementTime(double secondsToWait)
     {
         if (checkTime(secondsToWait))
                 currentInstruction++;
     }
 
-    public boolean checkTime(double secondsToWait)
+    private boolean checkTime(double secondsToWait)
     {
         if ((System.nanoTime() - lastTime) >= (secondsToWait * 1000000000))
         {

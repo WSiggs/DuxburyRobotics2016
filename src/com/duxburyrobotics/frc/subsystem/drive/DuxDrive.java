@@ -2,57 +2,39 @@ package com.duxburyrobotics.frc.subsystem.drive;
 
 import com.duxburyrobotics.frc.settings.Constants;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DuxDrive extends RobotDrive
 {
 
-    private SpeedController middleWheelOne;
-    private SpeedController middleWheelTwo;
+    private final SpeedController middleWheelOne;
+    private final SpeedController middleWheelTwo;
 
-    private SpeedController armLeft;
-    private SpeedController armRight;
+    private final SpeedController armLeft;
+    private final SpeedController armRight;
 
-    private SpeedController intakeMotor;
+    private final SpeedController intakeMotor;
 
-    private DoubleSolenoid intakeSolenoid;
-    private DoubleSolenoid rampSolenoid;
+    private final DoubleSolenoid intakeSolenoid;
 
-    private DigitalInput limitSwitch;
-    private DigitalInput armLimitSwitchOneForward;
-    private DigitalInput armLimitSwitchOneBack;
-    private DigitalInput armLimitSwitchTwoForward;
-    private DigitalInput armLimitSwitchTwoBack;
-    private boolean limitSwitchReset = true;
-    private boolean limitSwitchResetTwo = true;
-    
-    private boolean runCompressor = false;
-
-    public DuxDrive()
+    DuxDrive()
     {
-    	// front left, rear left, front right, rear right
+    	//    Front Left       Rear left        Front Right      Rear Right
         super(new CANTalon(1), new CANTalon(4), new CANTalon(2), new CANTalon(3));
 
-        this.middleWheelOne = new VictorSP(Constants.MIDDLE_WHEEL_LEFT_PORT);
-        this.middleWheelTwo = new VictorSP(Constants.MIDDLE_WHEEL_RIGHT_PORT);
+        this.middleWheelOne = new VictorSP(Constants.Motors.MIDDLE_WHEEL_LEFT_PORT);
+        this.middleWheelTwo = new VictorSP(Constants.Motors.MIDDLE_WHEEL_RIGHT_PORT);
 
-        this.armLeft = new TalonSRX(Constants.ARM_LEFT_MOTOR_PORT);
-        this.armRight = new TalonSRX(Constants.ARM_RIGHT_MOTOR_PORT);
+        this.armLeft = new TalonSRX(Constants.Motors.ARM_LEFT_MOTOR_PORT);
+        this.armRight = new TalonSRX(Constants.Motors.ARM_RIGHT_MOTOR_PORT);
 
-        this.intakeMotor = new TalonSRX(Constants.INTAKE_MOTOR_PORT);
+        this.intakeMotor = new TalonSRX(Constants.Motors.INTAKE_MOTOR_PORT);
 
-        this.intakeSolenoid = new DoubleSolenoid(Constants.INTAKE_SOLENOID_PORT_ONE, Constants.INTAKE_SOLENOID_PORT_TWO);
-        this.rampSolenoid = new DoubleSolenoid(Constants.RAMP_SOLENOID_PORT_ONE, Constants.RAMP_SOLENOID_PORT_TWO);
-
-        //this.armLimitSwitchOneForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_FORWARD);
-        //this.armLimitSwitchOneBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_BACK);
-        //this.armLimitSwitchTwoForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_FORWARD);
-        //this.armLimitSwitchTwoBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_BACK);
+        this.intakeSolenoid = new DoubleSolenoid(Constants.Pneumatics.INTAKE_SOLENOID_PORT_ONE, Constants.Pneumatics.INTAKE_SOLENOID_PORT_TWO);
     }
 
     public void moveArm(double moveValue)
     {
-        double calculatedMoveValue = ((moveValue * 100) / Constants.ARM_SPEED_POWER) / 100;
+        double calculatedMoveValue = ((moveValue * 100) / Constants.Misc.ARM_SPEED_POWER) / 100;
 
         armLeft.set(calculatedMoveValue);
         armRight.set(calculatedMoveValue);
@@ -63,64 +45,27 @@ public class DuxDrive extends RobotDrive
     	intakeMotor.set(speed);
     }
 
-    public void resetLimitSwitch()
-    {
-        limitSwitchReset = true;
-    }
-
     public void movePneumatics(int direction)
     {
     	if (direction == 1)
-    	{
     		intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-    	}
     	else if (direction == -1)
-    	{
             intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-        }
         else
-        {
         	intakeSolenoid.set(DoubleSolenoid.Value.kOff);
-        }
-    }
-
-    public void moveArmWithLimitSwitchChecking(boolean forward)
-    {
-        if (forward)
-        {
-            if (!armLimitSwitchOneForward.get())
-            {
-                armLeft.set(0.33);
-                armRight.set(0.33);
-            }
-        }
-        else
-        {
-            if (!armLimitSwitchOneBack.get())
-            {
-                armLeft.set(-0.33);
-                armRight.set(-0.33);
-            }
-        }
-
     }
 
     public void arcadeDrive(double moveValue, double rotateValue, boolean shouldMoveMiddleWheel)
     {
         double calculatedMoveValue;
-        double calculatedRotateValue;
 
         /** Forward / Back calculations */
 
         if (moveValue < 0.0)
-        {
             // NOTE (Brendan): This means that the value is negative.
             calculatedMoveValue = -(Math.pow(Math.abs(moveValue), 1.8));
-        }
         else
-        {
             calculatedMoveValue = Math.pow(moveValue, 1.8);
-        }
 
         /** Check if we should activate the middle wheel **/
 
@@ -135,14 +80,9 @@ public class DuxDrive extends RobotDrive
             middleWheelOne.set(0);
             middleWheelTwo.set(0);
         }
-        
 
         /** Actually move the bot */
-
-        calculatedMoveValue = -calculatedMoveValue;
-        rotateValue = -rotateValue;
-
-        super.arcadeDrive(calculatedMoveValue, rotateValue, false);
+        super.arcadeDrive(-calculatedMoveValue, -rotateValue, false);
 
     }
 }

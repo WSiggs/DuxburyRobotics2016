@@ -7,18 +7,19 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class DuxDriveHelper extends DuxDrive
 {
 
+    // Constants
     public static final int PNEUMATICS_UP = 1;
     public static final int PNEUMATICS_DOWN = -1;
-    public static final int PNEUMATICS_OFF = 0;
 
-    DigitalInput ballLimitSwitch = new DigitalInput(Constants.LIMIT_SWITCH_PORT);
-    DigitalInput armInLimitSwitch= new DigitalInput(Constants.ARMIN_SWITCH_PORT);
-    DigitalInput armOutLimitSwitch = new DigitalInput(Constants.ARMOUT_SWITCH_PORT);
+    // Limit Switches
+    private final DigitalInput ballLimitSwitch = new DigitalInput(Constants.LimitSwitches.LIMIT_SWITCH_PORT);
+    private final DigitalInput armInLimitSwitch = new DigitalInput(Constants.LimitSwitches.ARMIN_SWITCH_PORT);
+    private final DigitalInput armOutLimitSwitch = new DigitalInput(Constants.LimitSwitches.ARMOUT_SWITCH_PORT);
 
-    Counter ballInCounter = new Counter(ballLimitSwitch);
-    Counter armInCounter = new Counter(armInLimitSwitch);
-    Counter armOutCounter = new Counter(armOutLimitSwitch);
-
+    // Counters
+    private final Counter ballInCounter = new Counter(ballLimitSwitch);
+    private final Counter armInCounter = new Counter(armInLimitSwitch);
+    private final Counter armOutCounter = new Counter(armOutLimitSwitch);
 
     public void intakeBall()
     {
@@ -77,12 +78,6 @@ public class DuxDriveHelper extends DuxDrive
         }
         else
             return false;
-    }
-
-    public void shootBallOnPush()
-    {
-        //lowerIntake();
-        shootIntake();
     }
 
     public void shootIntake()
