@@ -30,14 +30,14 @@ public class DuxDriveHelper extends DuxDrive
 
     public void armsIn()
     {
-        this.moveArm(0.33);
+        this.moveArm(-1);
         this.armInCounter.reset();
         this.armInCounter.startLiveWindowMode();
     }
 
     public void armsOut()
     {
-        this.moveArm(0.33);
+        this.moveArm(1);
         this.armOutCounter.reset();
         this.armOutCounter.startLiveWindowMode();
     }
@@ -58,6 +58,7 @@ public class DuxDriveHelper extends DuxDrive
         if(armInCounter.get() > 0)
         {
             armInCounter.stopLiveWindowMode();
+            armInCounter.reset();
             return true;
         }
         else
@@ -71,6 +72,7 @@ public class DuxDriveHelper extends DuxDrive
         if(armOutCounter.get() > 0)
         {
             armOutCounter.stopLiveWindowMode();
+            armOutCounter.reset();
             return true;
         }
         else
@@ -79,18 +81,18 @@ public class DuxDriveHelper extends DuxDrive
 
     public void shootBallOnPush()
     {
-        lowerIntake();
-        intakeIntake();
+        //lowerIntake();
+        shootIntake();
     }
 
     public void shootIntake()
     {
-        runIntakeMotor(1);
+        runIntakeMotor(-1);
     }
 
     public void intakeIntake()
     {
-        runIntakeMotor(-1);
+        runIntakeMotor(.4);
     }
 
     public void raiseIntake()
@@ -105,7 +107,7 @@ public class DuxDriveHelper extends DuxDrive
 
     public void stopAll()
     {
-        movePneumatics(PNEUMATICS_OFF);
+        movePneumatics(PNEUMATICS_UP);
         runIntakeMotor(0);
     }
 

@@ -43,7 +43,7 @@ public class Autonomous
     		firstTimeRun = false;
     	}
     	
-    	if (mode == 0)
+    	if (mode == 0) // b + d defenses
     	{
     		if (currentInstruction == 0)
     		{
@@ -65,7 +65,7 @@ public class Autonomous
     			incrementTime(4);
     		}
     	}
-    	else if (mode == 1)
+    	else if (mode == 1) // simple low bar
     	{
     		if(currentInstruction == 0)
     		{
@@ -73,7 +73,7 @@ public class Autonomous
     			incrementTime(4);
     		}
     	}
-    	else if (mode == 2)
+    	else if (mode == 2) // portcullis
     	{
     		if(currentInstruction == 0)
     		{
@@ -86,7 +86,7 @@ public class Autonomous
     			incrementTime(4);
     		}
     	}
-    	else if (mode == 3)
+    	else if (mode == 3) // cheval
     	{
     		if(currentInstruction == 0)
     		{
@@ -109,7 +109,7 @@ public class Autonomous
     			incrementTime(2);
     		}
     	}
-    	else if (mode == 4)
+    	else if (mode == 4) // low goal 
         {
             if(currentInstruction == 0)
             {
@@ -123,7 +123,7 @@ public class Autonomous
             }
             else if(currentInstruction == 2)
             {
-                duxDrive.arcadeDrive(-0.66, 0.0, false);
+                duxDrive.arcadeDrive(-0.5, 0.0, false);
                 incrementTime(2);
             }
             else if(currentInstruction == 3)

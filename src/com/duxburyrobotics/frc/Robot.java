@@ -31,7 +31,6 @@ public class Robot extends IterativeRobot
     
     private CameraServer camera;
     
-    private Command autoCommand;
     private SendableChooser autoChooser;
     
     private SendableChooser compressorChooser;
@@ -44,7 +43,7 @@ public class Robot extends IterativeRobot
      */
     public void robotInit()
     {
-    	duxDrive = new DuxDrive();
+    	//duxDrive = new DuxDrive();
         duxDriveHelper = new DuxDriveHelper();
 
         auto = new Autonomous(duxDriveHelper, 0);

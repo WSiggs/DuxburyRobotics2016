@@ -30,6 +30,7 @@ public class DuxDrive extends RobotDrive
 
     public DuxDrive()
     {
+    	// front left, rear left, front right, rear right
         super(new CANTalon(1), new CANTalon(4), new CANTalon(2), new CANTalon(3));
 
         this.middleWheelOne = new VictorSP(Constants.MIDDLE_WHEEL_LEFT_PORT);
@@ -43,10 +44,10 @@ public class DuxDrive extends RobotDrive
         this.intakeSolenoid = new DoubleSolenoid(Constants.INTAKE_SOLENOID_PORT_ONE, Constants.INTAKE_SOLENOID_PORT_TWO);
         this.rampSolenoid = new DoubleSolenoid(Constants.RAMP_SOLENOID_PORT_ONE, Constants.RAMP_SOLENOID_PORT_TWO);
 
-        this.armLimitSwitchOneForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_FORWARD);
-        this.armLimitSwitchOneBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_BACK);
-        this.armLimitSwitchTwoForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_FORWARD);
-        this.armLimitSwitchTwoBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_BACK);
+        //this.armLimitSwitchOneForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_FORWARD);
+        //this.armLimitSwitchOneBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_ONE_BACK);
+        //this.armLimitSwitchTwoForward = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_FORWARD);
+        //this.armLimitSwitchTwoBack = new DigitalInput(Constants.ARM_LIMIT_SWITCH_PORT_TWO_BACK);
     }
 
     public void moveArm(double moveValue)
@@ -59,7 +60,7 @@ public class DuxDrive extends RobotDrive
 
     public void runIntakeMotor(double speed)
     {
-            intakeMotor.set(speed);
+    	intakeMotor.set(speed);
     }
 
     public void resetLimitSwitch()
@@ -69,18 +70,18 @@ public class DuxDrive extends RobotDrive
 
     public void movePneumatics(int direction)
     {
-        	if (direction == 1)
-            {
-                intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-            }
-            else if (direction == -1)
-            {
-                intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-            }
-            else
-            {
-                intakeSolenoid.set(DoubleSolenoid.Value.kOff);
-            }
+    	if (direction == 1)
+    	{
+    		intakeSolenoid.set(DoubleSolenoid.Value.kForward);
+    	}
+    	else if (direction == -1)
+    	{
+            intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+        }
+        else
+        {
+        	intakeSolenoid.set(DoubleSolenoid.Value.kOff);
+        }
     }
 
     public void moveArmWithLimitSwitchChecking(boolean forward)
@@ -123,6 +124,7 @@ public class DuxDrive extends RobotDrive
 
         /** Check if we should activate the middle wheel **/
 
+        
         if(shouldMoveMiddleWheel)
         {
             middleWheelOne.set(-calculatedMoveValue);
@@ -133,6 +135,7 @@ public class DuxDrive extends RobotDrive
             middleWheelOne.set(0);
             middleWheelTwo.set(0);
         }
+        
 
         /** Actually move the bot */
 

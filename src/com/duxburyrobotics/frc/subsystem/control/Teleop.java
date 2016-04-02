@@ -44,14 +44,17 @@ public class Teleop
         middleWheel = driverControl.getRawButton(Constants.MIDDLE_WHEEL_TOGGLE);
         duxDrive.arcadeDrive(driverControl.getAxis(Joystick.AxisType.kY), driverControl.getAxis(Joystick.AxisType.kZ), middleWheel);
 
+        /*
         // Arm Buttons
         if (operatorControl.getRawButton(Constants.ARM_DOWN_BUTTON))
             duxDrive.moveArmWithLimitSwitchChecking(true);
         else if (operatorControl.getRawButton(Constants.ARM_UP_BUTTON))
             duxDrive.moveArmWithLimitSwitchChecking(false);
+		*/
 
         // Move the arm
-        duxDrive.moveArm(-operatorControl.getAxis(Constants.ARM_CONTROL_AXIS));
+        if(!this.armMoving)
+        	duxDrive.moveArm(-operatorControl.getAxis(Constants.ARM_CONTROL_AXIS));
 
         // Move the pneumatics
         int pneumaticValue = 0;
@@ -68,11 +71,13 @@ public class Teleop
         duxDrive.movePneumatics(pneumaticValue);
 
         // Intake motor
-        double intakeMotorValue = operatorControl.getRawAxis(2) - operatorControl.getRawAxis(3);
+        if(!catchingBall)
+        {
+        	double intakeMotorValue = operatorControl.getRawAxis(2) - operatorControl.getRawAxis(3);
 
-        if (intakeMotorValue < 0.05 && intakeMotorValue > -0.05) intakeMotorValue = 0;
-        duxDrive.runIntakeMotor(operatorControl.getRawAxis(2));
-
+        	if (intakeMotorValue < 0.05 && intakeMotorValue > -0.05) intakeMotorValue = 0;
+        		duxDrive.runIntakeMotor(operatorControl.getRawAxis(2));
+        }
         // Shoot ball
         if(driverControl.getRawButton(Constants.SHOOT_BALL_BUTTON)) 
         	duxDrive.shootBallOnPush();
@@ -85,7 +90,7 @@ public class Teleop
 
         if(this.catchingBall && duxDrive.ballIn())
         {
-            this.catchingBall = true;
+            this.catchingBall = false;
             duxDrive.stopAll();
         }
 
@@ -106,6 +111,9 @@ public class Teleop
             duxDrive.moveArm(0);
             this.armMoving = false;
         }
+        
+        if(this.catchingBall && operatorControl.getRawButton(Constants.STOP_ALL_BUTTON))
+        	duxDrive.stopAll();
     }
     
     public void init()

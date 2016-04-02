@@ -13,7 +13,7 @@ public class Constants
 
     public static final Joystick.AxisType ARM_CONTROL_AXIS = Joystick.AxisType.kY;
     
-    public static final double ARM_SPEED_POWER = 5;
+    public static final double ARM_SPEED_POWER = 2;
 
     public static final int RAMP_SOLENOID_PORT_ONE = 6;
     public static final int RAMP_SOLENOID_PORT_TWO = 7;
@@ -62,9 +62,11 @@ public class Constants
     public static final int ARM_DOWN_BUTTON = -1;
     public static final int ARM_UP_BUTTON = -1;
 
-    public static final int ARMIN_SWITCH_PORT = 8;
-    public static final int ARMOUT_SWITCH_PORT = 9;
+    public static final int ARMIN_SWITCH_PORT = 4;
+    public static final int ARMOUT_SWITCH_PORT = 5;
 
     public static final int ARM_FORWARD_BUTTON = 2;
     public static final int ARM_BACKWARD_BUTTON = 3;
+    
+    public static final int STOP_ALL_BUTTON = 1;
 }
